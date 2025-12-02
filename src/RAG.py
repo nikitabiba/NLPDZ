@@ -1,5 +1,5 @@
-from Retriever import Retriever
-from LLM import LLM
+from src.Retriever import Retriever
+from src.LLM import LLM
 import logging
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
