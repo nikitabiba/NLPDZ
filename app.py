@@ -141,3 +141,6 @@ if prompt := st.chat_input("Введите ваш вопрос"):
                         "content": error_msg
                     })
 
+
+# streamlit run app.py
+# YjllY2FhYjgtNGRlMC00MDA4LWIwZmYtNjdlNjY0ZmI5OTc4OmI5YTY3NjYwLWJkMmQtNDNmZi04YzViLTU2MWMxYTE0MjFlMw==
