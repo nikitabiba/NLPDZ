@@ -3,6 +3,7 @@ import json
 from tqdm import tqdm
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 class Vectorizer:
@@ -26,6 +27,11 @@ class Vectorizer:
             raise ValueError("В директории присутствуют файлы с неизвестным форматом")
 
     def vectorize_json(self):
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=400,
+            chunk_overlap=50,
+        )
+
         for filename in tqdm(self.files, desc="Обработка файлов"):
             file_path = os.path.join(self.path, filename)
             
@@ -46,6 +52,7 @@ class Vectorizer:
                             text = text.strip()
                             if not text:
                                 continue
+                            chunks = splitter.split_text(text)
 
                             metadata = {
                                 "раздел": section_name,
@@ -54,7 +61,8 @@ class Vectorizer:
                                 "пункт": point_name
                             }
 
-                            self.docs.append(Document(page_content=text, metadata=metadata))
+                            for chunk in chunks:
+                                self.docs.append(Document(page_content=chunk, metadata=metadata))
 
         print(f"Векторизация {len(self.docs)} фрагментов...")
         
